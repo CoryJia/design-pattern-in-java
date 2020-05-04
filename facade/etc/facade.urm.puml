@@ -1,0 +1,60 @@
+@startuml
+package com.glorydream.facade {
+  class App {
+    + App()
+    + main(args : String[]) {static}
+  }
+  class DavenCartOperator {
+    - LOGGER : Logger {static}
+    + DavenCartOperator()
+    + name() : String
+    + work()
+  }
+  class DavenGoldDigger {
+    - LOGGER : Logger {static}
+    + DavenGoldDigger()
+    + name() : String
+    + work()
+  }
+  class DavenGoldmineFacade {
+    - workers : List<DavenMineWorker>
+    + DavenGoldmineFacade()
+    + digOutGold()
+    + endDay()
+    - makeActions(workers : Collection<DavenMineWorker>, actions : Action[]) {static}
+    + startNewDay()
+  }
+  abstract class DavenMineWorker {
+    - LOGGER : Logger {static}
+    + DavenMineWorker()
+    - action(action : Action)
+    + action(actions : Action[])
+    + goHome()
+    + goToMine()
+    + goToSleep()
+    + name() : String {abstract}
+    + wakeUp()
+    + work() {abstract}
+  }
+  ~enum Action {
+    + GO_HOME {static}
+    + GO_TO_MINE {static}
+    + GO_TO_SLEEP {static}
+    + WAKE_UP {static}
+    + WORK {static}
+    + valueOf(name : String) : Action {static}
+    + values() : Action[] {static}
+  }
+  class DavenTunnelDigger {
+    - LOGGER : Logger {static}
+    + DavenTunnelDigger()
+    + name() : String
+    + work()
+  }
+}
+DavenGoldmineFacade -->  "-workers" DavenMineWorker
+Action ..+ DavenMineWorker
+DavenCartOperator --|> DavenMineWorker
+DavenGoldDigger --|> DavenMineWorker
+DavenTunnelDigger --|> DavenMineWorker
+@enduml
